@@ -3,8 +3,13 @@
 ```
 gobuster dir -u http://10.10.10.121/ -w /usr/share/seclists/Discovery/Web-Content/common.txt
 ```
-## Directory/File Enumeration
+## Sub domaim enumaration
 
 ```
-gobuster dir -u http://10.10.10.121/ -w /usr/share/seclists/Discovery/Web-Content/common.txt
+gobuster dns -d inlanefreight.com -w /usr/share/SecLists/Discovery/DNS/namelist.txt
+```
+
+## Banner Grabbing / Web Server Headers
+```
+curl -IL https://www.inlanefreight.com
 ```
