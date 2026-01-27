@@ -1,0 +1,27 @@
+##PrivEsc Checklists
+
+##Kernel Exploits
+Whenever we encounter a server running an old operating system, we should start by looking for potential kernel vulnerabilities that may exist
+
+##Vulnerable Software
+Another thing we should look for is installed software. For example, we can use the dpkg -l command on Linux or look at C:\Program Files
+
+##User Privileges
+Another critical aspect to look for after gaining access to a server is the privileges available to the user we have access to
+Sudo
+SUID
+Windows Token Privileges
+The sudo command in Linux allows a user to execute commands as a different user. It is usually used to allow lower privileged users to execute commands as root without giving them access to the root user. 
+This is generally done as specific commands can only be run as root 'like tcpdump' or allow the user to access certain root-only directories. We can check what sudo privileges we have with the sudo -l command:
+
+##Scheduled Tasks
+Add new scheduled tasks/cron jobs
+Trick them to execute a malicious software
+The easiest way is to check if we are allowed to add new scheduled tasks. In Linux, a common form of maintaining scheduled tasks is through Cron Jobs.
+/etc/crontab
+/etc/cron.d
+/var/spool/cron/crontabs/root
+
+##Exposed Credentials
+Next, we can look for files we can read and see if they contain any exposed credentials. 
+This is very common with configuration files, log files, and user history files (bash_history in Linux and PSReadLine in Windows).
