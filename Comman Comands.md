@@ -24,3 +24,12 @@ hashcat -m 1410 -a 0 hash.txt /usr/share/wordlists/rockyou.txt
 ##With rules for better coverage:
 hashcat -m 1410 -a 0 hash.txt /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule
 ```
+
+##SSH 
+```
+ssh root@IP
+
+Internal port tunneling (Pivoting)
+
+ssh sedric@10.129.5.48 -L 5555:127.0.0.1:54321
+```
