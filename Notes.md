@@ -18,10 +18,14 @@ This is generally done as specific commands can only be run as root 'like tcpdum
 Add new scheduled tasks/cron jobs
 Trick them to execute a malicious software
 The easiest way is to check if we are allowed to add new scheduled tasks. In Linux, a common form of maintaining scheduled tasks is through Cron Jobs.
+```
 /etc/crontab
 /etc/cron.d
 /var/spool/cron/crontabs/root
+```
 
 ##Exposed Credentials
 Next, we can look for files we can read and see if they contain any exposed credentials. 
 This is very common with configuration files, log files, and user history files (bash_history in Linux and PSReadLine in Windows).
+
+
