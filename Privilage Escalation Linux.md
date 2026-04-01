@@ -9,6 +9,12 @@ crontab -l
 ```
 sudo -u user /bin/bash
 ```
+##SUID binaries:
+```
+find / -perm -4000 -type f 2>/dev/null
+find / -perm -6000 -type f 2>/dev/null
+```
+
 ##Escapeing the restricted shell (rbash)
 ```
 Using Editors
